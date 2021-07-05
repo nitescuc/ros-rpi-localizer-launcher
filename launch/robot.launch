@@ -1,0 +1,24 @@
+<launch>
+    <node ns="imu" name="imu_node" pkg="imu_bno055" type="bno055_i2c_node" respawn="true" respawn_delay="2" output="screen">
+        <param name="device" type="string" value="/dev/i2c-3"/>
+        <param name="address" type="int" value="41"/> <!-- 0x28 == 40 is the default for BNO055 -->
+        <param name="frame_id" type="string" value="imu"/>
+    </node>
+
+  <arg name="port" default="/dev/ttyS0" />
+  <arg name="baud" default="115200" />
+  <arg name="frame_id" default="gps" />
+  <arg name="use_GNSS_time" default="False" />
+  <arg name="time_ref_source" default="gps" />
+  <arg name="useRMC" default="False" />
+
+  <node name="nmea_serial_driver_node" pkg="nmea_navsat_driver" type="nmea_serial_driver" output="screen">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="$(arg baud)" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="use_GNSS_time" value="$(arg use_GNSS_time)" />
+    <param name="time_ref_source" value="$(arg time_ref_source)" />
+    <param name="useRMC" value="$(arg useRMC)" />
+  </node>
+</launch>
+
